@@ -1,0 +1,13 @@
+{
+    "name": "y2kaoz/common.php",
+    "description": "Y2KaoZ's common PHP tools and utils.",
+    "type": "library",
+    "license": "GPL-3.0-only",
+    "authors": [ { "name": "Y2KaoZ", "email": "y2kaoz@gmail.com" } ],
+    "require": { "php": ">=8.0" },
+    "autoload": { "psr-4": { "Y2KaoZ\\Common\\": "src/Common" }},
+    "scripts": {
+        "test": "clear && phpunit --bootstrap ./vendor/autoload.php --testdox ./tests/",
+        "check": "clear && phpcbf --standard=PSR12 src/ tests/ example/; psalm --no-cache"
+    }
+}
