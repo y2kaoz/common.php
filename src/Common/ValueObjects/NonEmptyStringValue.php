@@ -24,7 +24,7 @@ namespace Y2KaoZ\Common\ValueObjects;
 
 /**
  * A non-empty string value object
- * 
+ *
  */
 class NonEmptyStringValue extends StringValue
 {

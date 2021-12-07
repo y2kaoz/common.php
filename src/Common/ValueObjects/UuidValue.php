@@ -23,8 +23,8 @@ declare(strict_types=1);
 namespace Y2KaoZ\Common\ValueObjects;
 
 /**
- * A uuid string value object 
- * 
+ * A uuid string value object
+ *
  */
 final class UuidValue extends NonEmptyStringValue
 {

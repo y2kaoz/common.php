@@ -29,8 +29,6 @@ use ReflectionProperty;
  * Provides a cache to store class reflextion properties.
  *
  * This class is used in reflection to store class properties for reuse.
- * 
- * 
  */
 final class PropertiesCache
 {

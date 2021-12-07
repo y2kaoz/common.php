@@ -28,8 +28,6 @@ namespace Y2KaoZ\Common\CopyProperties;
  * This is mostly usefull for type definition in function signatures and classes.
  * This interface+trait is more helpfull on classes that have private member properties to copy.
  *
- * 
- * 
  * @example class CopyTarget implements \Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface {
  *              use \Y2KaoZ\Common\CopyProperties\CopyPropertiesTrait;
  *          }

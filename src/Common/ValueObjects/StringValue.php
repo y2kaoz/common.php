@@ -25,8 +25,8 @@ namespace Y2KaoZ\Common\ValueObjects;
 use Stringable;
 
 /**
- * A base string value object 
- * 
+ * A base string value object
+ *
  */
 class StringValue implements Stringable
 {

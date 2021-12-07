@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace Y2KaoZ\Common\ValueObjects;
 
-/** 
- * A valid email value object 
- * 
+/**
+ * A valid email value object
+ *
  */
 final class EmailValue extends NonEmptyStringValue
 {

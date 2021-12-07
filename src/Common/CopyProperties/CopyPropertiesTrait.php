@@ -22,10 +22,7 @@ declare(strict_types=1);
 
 namespace Y2KaoZ\Common\CopyProperties;
 
-use ReflectionNamedType;
 use ReflectionProperty;
-use ReflectionUnionType;
-use Y2KaoZ\Common\PropertiesCache\PropertiesCache;
 
 /**
  * This is the default implementation for Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface
@@ -33,40 +30,13 @@ use Y2KaoZ\Common\PropertiesCache\PropertiesCache;
  * This interface+trait is more helpfull on classes that have public member properties to copy
  * or exposes private member properties using __set.
  *
- * 
- * 
  * @example class CopyTarget implements \Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface {
  *              use \Y2KaoZ\Common\CopyProperties\CopyPropertiesTrait;
  *          }
  */
 trait CopyPropertiesTrait
 {
-    /**
-     * @param class-string $class
-     * @return array<string,ReflectionProperty> */
-    private static function getNamedProperties(string $class): array
-    {
-        $filter = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE;
-        return array_combine(
-            PropertiesCache::getPropertyNames($class, $filter),
-            PropertiesCache::getProperties($class, $filter)
-        );
-    }
-
-    /** @param array<string,ReflectionProperty> $namedProperties */
-    private static function getFirstTypeName(array $namedProperties, string $property): ?string
-    {
-        $type = $namedProperties[$property]->getType();
-        if ($type instanceof ReflectionNamedType) {
-            return $type->getName();
-        } elseif ($type instanceof ReflectionUnionType) {
-            $types = $type->getTypes();
-            if (isset($types[0])) {
-                return $types[0]->getName();
-            }
-        }
-        return null;
-    }
+    use CopyPropertiesBaseTrait;
 
     /** @param array<string,ReflectionProperty> $namedProperties */
     private function setValue(array $namedProperties, string $property, mixed $value): void

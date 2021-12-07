@@ -22,44 +22,15 @@ declare(strict_types=1);
 
 namespace Y2KaoZ\Common\CopyProperties;
 
-use ReflectionNamedType;
 use ReflectionProperty;
-use ReflectionUnionType;
-use Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface;
-use Y2KaoZ\Common\PropertiesCache\PropertiesCache;
 
 /**
  * This is an external class to copy properties from diferent sources into an object.
- * 
+ *
  */
 final class CopyProperties
 {
-    /**
-     * @param class-string $class
-     * @return array<string,ReflectionProperty> */
-    private static function getNamedProperties(string $class): array
-    {
-        $filter = ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PRIVATE;
-        return array_combine(
-            PropertiesCache::getPropertyNames($class, $filter),
-            PropertiesCache::getProperties($class, $filter)
-        );
-    }
-
-    /** @param array<string,ReflectionProperty> $namedProperties */
-    private static function getFirstTypeName(array $namedProperties, string $property): ?string
-    {
-        $type = $namedProperties[$property]->getType();
-        if ($type instanceof ReflectionNamedType) {
-            return $type->getName();
-        } elseif ($type instanceof ReflectionUnionType) {
-            $types = $type->getTypes();
-            if (isset($types[0])) {
-                return $types[0]->getName();
-            }
-        }
-        return null;
-    }
+    use CopyPropertiesBaseTrait;
 
     /** @param array<string,ReflectionProperty> $namedProperties */
     private static function setValue(array $namedProperties, string $property, mixed $value, object &$target): void
@@ -90,6 +61,7 @@ final class CopyProperties
             }
         }
     }
+
     /**
      * Copies the matching properties from source object into the target class
      * @param object &$target The target to write to
@@ -126,6 +98,7 @@ final class CopyProperties
         }
         return $target;
     }
+    
     /**
      * Copies the matching named parameters into the target class
      * @param object &$target The target to write to
