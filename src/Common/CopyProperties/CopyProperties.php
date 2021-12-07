@@ -98,7 +98,7 @@ final class CopyProperties
         }
         return $target;
     }
-    
+
     /**
      * Copies the matching named parameters into the target class
      * @param object &$target The target to write to
