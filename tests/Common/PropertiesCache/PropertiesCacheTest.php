@@ -3,7 +3,7 @@
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License only.
+ * the Free Software Foundation; either version 3 of the License only.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,15 +15,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  *
+ * Written by Carlos Gonzalez<y2kaoz@gmail.com>
  */
 
 declare(strict_types=1);
 
-namespace Y2KaoZ\Common\PropertiesCacheTest;
+namespace tests\Common\PropertiesCache\PropertiesCacheTest;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use Y2KaoZ\Common\PropertiesCache;
+use Y2KaoZ\Common\PropertiesCache\PropertiesCache;
 
 class EmptyExistingClass
 {

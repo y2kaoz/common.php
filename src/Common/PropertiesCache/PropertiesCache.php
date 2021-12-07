@@ -3,7 +3,7 @@
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License only.
+ * the Free Software Foundation; either version 3 of the License only.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,16 +15,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  *
+ * Written by Carlos Gonzalez<y2kaoz@gmail.com>
  */
 
 declare(strict_types=1);
 
-namespace Y2KaoZ\Common;
+namespace Y2KaoZ\Common\PropertiesCache;
 
 use ReflectionClass;
 use ReflectionProperty;
 
-class PropertiesCache
+/**
+ * Provides a cache to store class reflextion properties.
+ *
+ * This class is used in reflection to store class properties for reuse.
+ * 
+ * 
+ */
+final class PropertiesCache
 {
     /** @var array<string,array<int, ReflectionProperty[]>> */
     private static array $properties = [];
@@ -33,8 +41,10 @@ class PropertiesCache
     private static array $propertyNames = [];
 
     /**
-     * @param class-string $class
-     * @return ReflectionProperty[] */
+     * Loads and stores in a cache the filtered properties for the given class
+     * @param class-string $class The class to retrieve properties from.
+     * @return ReflectionProperty[] The properties for class
+     */
     public static function getProperties(string $class, int $filter = ReflectionProperty::IS_PUBLIC): array
     {
         if (!isset(static::$properties[$class][$filter])) {
@@ -47,8 +57,10 @@ class PropertiesCache
     }
 
     /**
-     * @param class-string $class
-     * @return string[] */
+     * Loads and stores in a cache the names of the filtered properties for the given class
+     * @param class-string $class The class to retrieve properties names from.
+     * @return string[] The name of the properties for class
+     */
     public static function getPropertyNames(string $class, int $filter = ReflectionProperty::IS_PUBLIC): array
     {
         if (!isset(static::$propertyNames[$class][$filter])) {

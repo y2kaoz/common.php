@@ -3,7 +3,7 @@
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License only.
+ * the Free Software Foundation; either version 3 of the License only.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,16 +15,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  *
+ * Written by Carlos Gonzalez<y2kaoz@gmail.com>
  */
 
 declare(strict_types=1);
 
-namespace Y2KaoZ\Common\Traits\CopyPropertiesTraitTest;
+namespace tests\Common\CopyProperties\CopyPropertiesTraitTest;
 
 use stdClass;
 use PHPUnit\Framework\TestCase;
-use Y2KaoZ\Common\Interfaces\CopyPropertiesInterface;
-use Y2KaoZ\Common\Traits\CopyPropertiesTrait;
+use Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface;
+use Y2KaoZ\Common\CopyProperties\CopyPropertiesTrait;
 
 class Target implements CopyPropertiesInterface
 {
@@ -134,9 +135,9 @@ class CopyPropertiesTraitTest extends TestCase
         $this->assertEquals($target->privVal, "privVal");
     }
 
-    public function testCopyPropertiesFromNoNamedParamsError(): void
+    public function testCopyPropertiesFromNoNamedParamsException(): void
     {
-        $this->expectError();
+        $this->expectException(\Exception::class);
         $target = new Target();
         $target->fromParams(
             1,
@@ -144,10 +145,6 @@ class CopyPropertiesTraitTest extends TestCase
             "protVal",
             "privVal"
         );
-        $this->assertEquals($target->id, 1);
-        $this->assertEquals($target->name, "one");
-        $this->assertEquals($target->protVal, "protVal");
-        $this->assertEquals($target->privVal, "privVal");
     }
 
     public function testCopyPropertiesAllowsNull(): void

@@ -3,7 +3,7 @@
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License only.
+ * the Free Software Foundation; either version 3 of the License only.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,19 +15,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  *
+ * Written by Carlos Gonzalez<y2kaoz@gmail.com>
  */
 
 declare(strict_types=1);
 
-namespace Y2KaoZ\Common;
+namespace Y2KaoZ\Common\CopyProperties;
 
 use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
-use Y2KaoZ\Common\Interfaces\CopyPropertiesInterface;
-use Y2KaoZ\Common\PropertiesCache;
+use Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface;
+use Y2KaoZ\Common\PropertiesCache\PropertiesCache;
 
-class CopyProperties
+/**
+ * This is an external class to copy properties from diferent sources into an object.
+ * 
+ */
+final class CopyProperties
 {
     /**
      * @param class-string $class
@@ -85,8 +90,13 @@ class CopyProperties
             }
         }
     }
-
-    public static function fromObject(object &$target, object $source): void
+    /**
+     * Copies the matching properties from source object into the target class
+     * @param object &$target The target to write to
+     * @param object $source The source to copy from
+     * @return object The modified object.
+     */
+    public static function fromObject(object &$target, object $source): object
     {
         $namedProperties = static::getNamedProperties($target::class);
         foreach (array_keys($namedProperties) as $property) {
@@ -94,10 +104,17 @@ class CopyProperties
                 static::setValue($namedProperties, $property, $source->{$property}, $target);
             }
         }
+        return $target;
     }
 
-    /** @param array<string,mixed> $source*/
-    public static function fromArray(object &$target, array $source): void
+    /**
+     * Copies the matching keys's values from source into the target class
+     *
+     * @param object &$target The target to write to
+     * @param array<string,mixed> $source The source to copy from
+     * @return object The modified object.
+     */
+    public static function fromArray(object &$target, array $source): object
     {
         if (!empty($source)) {
             $namedProperties = static::getNamedProperties($target::class);
@@ -107,15 +124,24 @@ class CopyProperties
                 }
             }
         }
+        return $target;
     }
-
-    public static function fromParams(object &$target, mixed ...$source): void
+    /**
+     * Copies the matching named parameters into the target class
+     * @param object &$target The target to write to
+     * @param mixed ...$source The source to copy from
+     * @return object The modified object.
+     */
+    public static function fromParams(object &$target, mixed ...$source): object
     {
         foreach ($source as $key => $_value) {
-            assert(is_string($key));
+            if (!is_string($key)) {
+                throw new \Exception("Invalid parameter key '$key'.");
+            }
         }
         /** @var array<string,mixed> $strArray */
         $strArray = $source;
         static::fromArray($target, $strArray);
+        return $target;
     }
 }

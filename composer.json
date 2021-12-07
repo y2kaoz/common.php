@@ -8,6 +8,7 @@
     "autoload": { "psr-4": { "Y2KaoZ\\Common\\": "src/Common" }},
     "scripts": {
         "test": "clear && phpunit --bootstrap ./vendor/autoload.php --testdox ./tests/",
-        "check": "clear && phpcbf --standard=PSR12 src/ tests/; psalm --no-cache"
+        "check": "clear && phpcbf --standard=PSR12 src/ tests/; psalm --no-cache",
+        "doc": "php ~/bin/phpDocumentor.phar -d ./src -t ./doc --visibility=public"
     }
 }

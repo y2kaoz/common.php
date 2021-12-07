@@ -3,7 +3,7 @@
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License only.
+ * the Free Software Foundation; either version 3 of the License only.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,17 +15,30 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  *
+ * Written by Carlos Gonzalez<y2kaoz@gmail.com>
  */
 
 declare(strict_types=1);
 
-namespace Y2KaoZ\Common\Traits;
+namespace Y2KaoZ\Common\CopyProperties;
 
 use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
-use Y2KaoZ\Common\PropertiesCache;
+use Y2KaoZ\Common\PropertiesCache\PropertiesCache;
 
+/**
+ * This is the default implementation for Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface
+ *
+ * This interface+trait is more helpfull on classes that have public member properties to copy
+ * or exposes private member properties using __set.
+ *
+ * 
+ * 
+ * @example class CopyTarget implements \Y2KaoZ\Common\CopyProperties\CopyPropertiesInterface {
+ *              use \Y2KaoZ\Common\CopyProperties\CopyPropertiesTrait;
+ *          }
+ */
 trait CopyPropertiesTrait
 {
     /**
@@ -88,6 +101,13 @@ trait CopyPropertiesTrait
         }
     }
 
+    /**
+     * Copies the matching properties from source object to the class
+     * that implements this interface using CopyPropertiesTrait
+     *
+     * @param object $source The source to copy from
+     * @return static The modified object.
+     */
     public function fromObject(object $source): static
     {
         $namedProperties = static::getNamedProperties(static::class);
@@ -99,7 +119,13 @@ trait CopyPropertiesTrait
         return $this;
     }
 
-    /** @param array<string,mixed> $source*/
+    /**
+     * Copies the matching keys's values from source the array to the class
+     * that implements this interface using CopyPropertiesTrait
+     *
+     * @param array<string,mixed> $source The source to copy from
+     * @return static The modified object.
+     */
     public function fromArray(array $source): static
     {
         if (!empty($source)) {
@@ -113,10 +139,19 @@ trait CopyPropertiesTrait
         return $this;
     }
 
+    /**
+     * Copies the matching named parameters to the class
+     * that implements this interface using CopyPropertiesTrait
+     *
+     * @param mixed ...$source The source to copy from
+     * @return static The modified object.
+     */
     public function fromParams(mixed ...$source): static
     {
         foreach ($source as $key => $_value) {
-            assert(is_string($key));
+            if (!is_string($key)) {
+                throw new \Exception("Invalid parameter key '$key'.");
+            }
         }
         /** @var array<string,mixed> $strArray */
         $strArray = $source;

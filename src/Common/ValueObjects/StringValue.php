@@ -3,7 +3,7 @@
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; version 3 of the License only.
+ * the Free Software Foundation; either version 3 of the License only.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,16 +15,34 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  *
+ * Written by Carlos Gonzalez<y2kaoz@gmail.com>
  */
 
 declare(strict_types=1);
 
-namespace Y2KaoZ\Common\Interfaces;
+namespace Y2KaoZ\Common\ValueObjects;
 
-interface CopyPropertiesInterface
+use Stringable;
+
+/**
+ * A base string value object 
+ * 
+ */
+class StringValue implements Stringable
 {
-    public function fromObject(object $source): static;
-    /** @param array<string,mixed> $source*/
-    public function fromArray(array $source): static;
-    public function fromParams(mixed ...$source): static;
+    /** @readonly */
+    private string $value;
+
+    public function __construct(string $value = "")
+    {
+        $this->value = $value;
+    }
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+    public function __toString(): string
+    {
+        return $this->value;
+    }
 }
